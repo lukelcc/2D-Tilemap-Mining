@@ -21,53 +21,18 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //if (!isAlive) { return; } //make class dead or alive
-
         Run();
         FlipSprite();
         ClimbLadder();
-        //Die(); //class dead or alive
     }
-
-    //private void Die() //make class dead or alive - function
-    //{
-    //    if (GetComponent<CapsuleCollider2D>().IsTouchingLayers(LayerMask.GetMask("Enemy", "Hazard")))
-    //    {
-    //        //isAlive = false;
-    //        //GetComponent<Animator>().SetTrigger("Dying");
-    //        //death fly away
-    //        //GetComponent<Rigidbody2D>().velocity = deathKick;
-    //        //Destroy(gameObject);
-    //        //Instantiate(deathSprite, transform.position, Quaternion.identity);
-    //        GetComponent<PlayerDeath>().Dismemberment();
-
-    //    }
-    //}
-
-
-    //private void OnCollisionEnter2D(Collision2D collision) // when player get hurt by enemies/hazards
-    //{
-    //    if (collision.gameObject.tag == "CanHurtPlayer")
-    //    {
-    //        GetComponent<PlayerMortality>().Die();
-    //        FindObjectOfType<GameSession>().MinusHp();
-    //    }
-
-    //}
-
-    
 
     void OnMove(InputValue value) // getting WSAD key input from user
     {
-        //if (!isAlive) { return; } //make class dead or alive
-
         moveInput = value.Get<Vector2>();
     }
 
     void OnJump(InputValue value) // getting space key from user
     {
-        //if (!isAlive) { return; } //make class dead or alive
-
         //prevents double jumps
         if (!GetComponent<BoxCollider2D>().IsTouchingLayers(LayerMask.GetMask("Ground")))
         {
