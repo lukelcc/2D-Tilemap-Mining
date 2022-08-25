@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class PlayerMortality : MonoBehaviour
 {
     [Header("Health")]
@@ -15,7 +14,6 @@ public class PlayerMortality : MonoBehaviour
     [SerializeField] private float SpriteFlashPeriod = 0.2f;
     [SerializeField] private Vector2 knockBackForce = new Vector2(5f, 5f);
 
-    //to do - death
     [Header("Death and dismemberment")]
     [SerializeField] List<GameObject> bodyPartsList;
     [SerializeField] float yeetForce = 20f;
@@ -27,6 +25,7 @@ public class PlayerMortality : MonoBehaviour
     private void Start()
     {
         hp = strartingHp;
+        //Physics2D.IgnoreLayerCollision(8, 11, false);
     }
     public int GetStartingHealth()
     {
@@ -42,23 +41,32 @@ public class PlayerMortality : MonoBehaviour
     {
         if (collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "Hazard")
         {
+
             //player get hit at left or right
             if (collision.gameObject.transform.position.x < transform.position.x)
             {
                 Debug.Log("fly right");
-                InjuredAnim(knockBackForce);
             }
-            if (collision.gameObject.transform.position.x > transform.position.x)
+            else if (collision.gameObject.transform.position.x > transform.position.x)
             {
                 Debug.Log("fly left");
-                InjuredAnim(new Vector2(-knockBackForce.x,knockBackForce.y));
+                knockBackForce = new Vector2(-knockBackForce.x, knockBackForce.y);
             }
 
-            //player turns red
-            StartCoroutine(TemporaryDisablePlayerMovement());
-            StartCoroutine(TemporaryInvulnerable());
-            
             MinusHp(1);
+
+            //die
+            if (hp <= 0)
+            {
+                Die();
+                FindObjectOfType<GameSession>().ResetGame();
+            }
+            else
+            {
+                StartCoroutine(TemporaryDisablePlayerMovement());
+                StartCoroutine(TemporaryInvulnerable());
+            }
+            
         }
     }
 
@@ -66,34 +74,26 @@ public class PlayerMortality : MonoBehaviour
     {    
         hp -= HpToMinus;
         Debug.Log("hp:" + hp);
+        
         //update UI with latest hp
         if (onHpChange != null)
         {
             onHpChange();
-        }
-
-        //die
-        if (hp <= 0)
-        {
-            Die();
-            FindObjectOfType<GameSession>().ResetGame();
-        }
-        
-    }
-
-    public void InjuredAnim(Vector2 knockBackDirection) 
-    {
-        GetComponent<Rigidbody2D>().velocity = knockBackDirection;
-        StartCoroutine(TemporaryDisablePlayerMovement());
+        }           
     }
 
 
     private IEnumerator TemporaryDisablePlayerMovement()
     {
+        GetComponent<Rigidbody2D>().velocity = knockBackForce;
+
         GetComponent<PlayerMovement>().enabled = false;
+
         GetComponent<SpriteRenderer>().color = Color.red;
         yield return new WaitForSeconds(controlDisablePeriod);
+
         GetComponent<PlayerMovement>().enabled = true;
+
         GetComponent<SpriteRenderer>().color = Color.white;
 
         StartCoroutine(FlashingSprite());
