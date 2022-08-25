@@ -19492,7 +19492,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1325947617389710758, guid: ea144ad7c5c7fcf41b4ccbe210766777, type: 3}
       propertyPath: strartingHp
-      value: 10
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1325947617389710758, guid: ea144ad7c5c7fcf41b4ccbe210766777, type: 3}
       propertyPath: knockBackForce
@@ -19512,7 +19512,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1325947617389710758, guid: ea144ad7c5c7fcf41b4ccbe210766777, type: 3}
       propertyPath: invulnerablePeriod
-      value: 2
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1325947617389710758, guid: ea144ad7c5c7fcf41b4ccbe210766777, type: 3}
+      propertyPath: controlDisablePeriod
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2073875588545993243, guid: ea144ad7c5c7fcf41b4ccbe210766777, type: 3}
       propertyPath: m_Size.y
