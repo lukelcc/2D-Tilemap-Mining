@@ -70,12 +70,36 @@ public class GameSession : MonoBehaviour
     {
         StartCoroutine(ResetGameCoroutine());
     }
-    IEnumerator ResetGameCoroutine() //go back to level 1, reset everything
+
+    public int LevelRandomizer()
+    {
+        int lastLevelIndex = SceneManager.sceneCountInBuildSettings;
+        int nextLevelIndex;
+        try 
+        {
+            do
+            {
+                nextLevelIndex = UnityEngine.Random.Range(0, lastLevelIndex);
+            } while (nextLevelIndex == SceneManager.GetActiveScene().buildIndex);
+        }catch(NullReferenceException error)
+        {
+            Debug.Log(error.Message);
+            nextLevelIndex = 0;
+        }       
+        return nextLevelIndex;      
+    }
+
+    public void ResetStats()
+    {
+        //reset all stats and xp
+    }
+    IEnumerator ResetGameCoroutine() //reset game
     {
         yield return new WaitForSeconds(levelResetDelay);
         //reset all collectibles
-        FindObjectOfType<ScenePersist>().ResetScenePersist();
-        SceneManager.LoadScene(0);      
+        //FindObjectOfType<ScenePersist>().ResetScenePersist();
+        SceneManager.LoadScene(LevelRandomizer());      
         Destroy(gameObject);
     }
+
 }

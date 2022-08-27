@@ -45,11 +45,11 @@ public class PlayerMortality : MonoBehaviour
             //player get hit at left or right
             if (collision.gameObject.transform.position.x < transform.position.x)
             {
-                Debug.Log("fly right");
+                //Debug.Log("fly right");
             }
             else if (collision.gameObject.transform.position.x > transform.position.x)
             {
-                Debug.Log("fly left");
+                //Debug.Log("fly left");
                 knockBackForce = new Vector2(-knockBackForce.x, knockBackForce.y);
             }
 
@@ -60,7 +60,7 @@ public class PlayerMortality : MonoBehaviour
     public void MinusHp(int HpToMinus)
     {    
         hp -= HpToMinus;
-        Debug.Log("hp:" + hp);
+        //Debug.Log("hp:" + hp);
         
         //update UI with latest hp
         if (onHpChange != null)
