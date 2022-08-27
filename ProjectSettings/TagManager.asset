@@ -7,7 +7,7 @@ TagManager:
   - Hazard
   - Enemy
   - CanHurtEnemy
-  - DestructableTerrain
+  - Ground
   layers:
   - Default
   - TransparentFX

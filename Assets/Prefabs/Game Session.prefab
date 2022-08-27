@@ -380,6 +380,8 @@ GameObject:
   - component: {fileID: 889342914186579990}
   - component: {fileID: 889342914186579989}
   - component: {fileID: 1355381881}
+  - component: {fileID: 1355381884}
+  - component: {fileID: 1355381885}
   m_Layer: 0
   m_Name: Game Session
   m_TagString: Untagged
@@ -427,5 +429,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 259b074d6932bf748aeb2013db08be66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameSession: {fileID: 889342914186579989}
   PlayerHpText: {fileID: 1327097931}
+--- !u!114 &1355381884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 889342914186579988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00883275b62c805419a767dffa0d445e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1355381885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 889342914186579988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d09b02a5b12929e42a5ed94d82e875be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerScoreText: {fileID: 548823852}

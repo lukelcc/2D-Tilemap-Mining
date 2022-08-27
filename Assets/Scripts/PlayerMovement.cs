@@ -10,13 +10,14 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float jumpSpeed = 10f;
     [SerializeField] float climbLadderSpeed = 5f;
     [SerializeField] float gravityScaleAtStart = 1f;
+    [SerializeField] int maxJumps = 2;
 
     private Vector2 moveInput;
- 
+
     //colliders
     //boxCollider = feet
     //capsuleCollider = body
-
+    int jumpsAvailable = 0;
 
     // Update is called once per frame
     void Update()
@@ -24,25 +25,32 @@ public class PlayerMovement : MonoBehaviour
         Run();
         FlipSprite();
         ClimbLadder();
+
     }
+
 
     void OnMove(InputValue value) // getting WSAD key input from user
     {
         moveInput = value.Get<Vector2>();
     }
 
+
+    //Jump
     void OnJump(InputValue value) // getting space key from user
     {
-        //prevents double jumps
-        if (!GetComponent<BoxCollider2D>().IsTouchingLayers(LayerMask.GetMask("Ground")))
+        if (GetComponent<BoxCollider2D>().IsTouchingLayers(LayerMask.GetMask("Ground")))
         {
-            return;
+            jumpsAvailable = maxJumps;
         }
-        if (value.isPressed)
+
+        if (value.isPressed && jumpsAvailable > 0) // jump in air?
         {
+            jumpsAvailable--;
+            GetComponent<Rigidbody2D>().velocity = Vector2.zero; // prevent velocity stack frm previous jump
             GetComponent<Rigidbody2D>().velocity += new Vector2(0f, jumpSpeed);
         }
     }
+
 
     void Run()
     {

@@ -16,8 +16,6 @@ GameObject:
   - component: {fileID: 6039000640320246377}
   - component: {fileID: 4600359002220340288}
   - component: {fileID: 2580041291669462440}
-  - component: {fileID: 1588455278789777933}
-  - component: {fileID: 3163798400021571625}
   - component: {fileID: 1325947617389710758}
   m_Layer: 8
   m_Name: Player
@@ -100,7 +98,7 @@ SpriteRenderer:
   m_SortingLayerID: 7726689
   m_SortingLayer: 8
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 0b9474da47c86e7479d2b266d10e94c9, type: 3}
+  m_Sprite: {fileID: 1857188551261513057, guid: 6bf2b294219b86c428ae6ff0c33f05b2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -121,10 +119,10 @@ CapsuleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 6200000, guid: 367e9b37c1ea1e642bdd4707d6345197, type: 2}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.0011966228, y: -0.015167356}
+  m_Offset: {x: -0.0011966228, y: -0.054220796}
   m_Size: {x: 0.4416604, y: 0.8454521}
   m_Direction: 0
 --- !u!61 &2073875588545993243
@@ -137,21 +135,21 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 6200000, guid: 367e9b37c1ea1e642bdd4707d6345197, type: 2}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.00042951107, y: -0.4052167}
+  m_Offset: {x: -0.00042951107, y: -0.45542812}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.4375, y: 0.875}
+    oldSize: {x: 1, y: 1}
     newSize: {x: 0.18, y: 0.28}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.40356517, y: 0.07189107}
+  m_Size: {x: 0.40356517, y: 0.0774703}
   m_EdgeRadius: 0
 --- !u!50 &6039000640320246377
 Rigidbody2D:
@@ -220,37 +218,7 @@ MonoBehaviour:
   jumpSpeed: 12
   climbLadderSpeed: 5
   gravityScaleAtStart: 1
---- !u!114 &1588455278789777933
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5918663808058300001}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cdf3d9d4a78727341b50986efc028e34, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObjectsToRotate: {fileID: 0}
---- !u!114 &3163798400021571625
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5918663808058300001}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca5809e3e6956e04ea1b872926590cf5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  firePoint: {fileID: 0}
-  ProjectilePrefab: {fileID: 8523352496917372587, guid: 12f5f67dfa99dc4409689597ec15cd13, type: 3}
-  maxProjectilePoolSize: 50
-  projectileForce: 20
-  shootSound: {fileID: 0}
-  shootSoundVolume: 0.25
+  maxJumps: 2
 --- !u!114 &1325947617389710758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -264,6 +232,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   strartingHp: 3
+  invulnerablePeriod: 2
+  controlDisablePeriod: 1
+  SpriteFlashPeriod: 0.1
+  knockBackForce: {x: 5, y: 10}
   bodyPartsList:
   - {fileID: 5102813124936218203, guid: 123d4c9b4d1e7db4c8f71644e0a98f5b, type: 3}
   - {fileID: 3382646677620604879, guid: 0395490a93d5351468ca3477066194f0, type: 3}

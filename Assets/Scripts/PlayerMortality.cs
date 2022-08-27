@@ -53,20 +53,7 @@ public class PlayerMortality : MonoBehaviour
                 knockBackForce = new Vector2(-knockBackForce.x, knockBackForce.y);
             }
 
-            MinusHp(1);
-
-            //die
-            if (hp <= 0)
-            {
-                Die();
-                FindObjectOfType<GameSession>().ResetGame();
-            }
-            else
-            {
-                StartCoroutine(TemporaryDisablePlayerMovement());
-                StartCoroutine(TemporaryInvulnerable());
-            }
-            
+            MinusHp(1);          
         }
     }
 
@@ -79,7 +66,18 @@ public class PlayerMortality : MonoBehaviour
         if (onHpChange != null)
         {
             onHpChange();
-        }           
+        }
+        //die
+        if (hp <= 0)
+        {
+            Die();
+            FindObjectOfType<GameSession>().ResetGame();
+        }
+        else
+        {
+            InjuredAnims();
+        }
+
     }
 
 
@@ -99,6 +97,12 @@ public class PlayerMortality : MonoBehaviour
         StartCoroutine(FlashingSprite());
     }
 
+
+    public void InjuredAnims()
+    {
+        StartCoroutine(TemporaryDisablePlayerMovement());
+        StartCoroutine(TemporaryInvulnerable());
+    }
     private IEnumerator TemporaryInvulnerable()
     {
         Physics2D.IgnoreLayerCollision(8, 11, true);
