@@ -25,17 +25,16 @@ public class PlayerMovement : MonoBehaviour
         Run();
         FlipSprite();
         ClimbLadder();
-
     }
 
 
     void OnMove(InputValue value) // getting WSAD key input from user
     {
-        moveInput = value.Get<Vector2>();
+        moveInput = value.Get<Vector2>();       
     }
 
 
-    //Jump
+    // Jump - put in separate script?
     void OnJump(InputValue value) // getting space key from user
     {
         if (GetComponent<BoxCollider2D>().IsTouchingLayers(LayerMask.GetMask("Ground")))
@@ -51,6 +50,18 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    // Dash
+
+
+    // Crouch
+    //void Crouch()
+    //{
+    //    if (moveInput.y < 0) // if user press down key, vector y <0
+    //    {
+    //        GetComponent<Animator>().SetBool("isCrouching", true); // change animation to crouch
+            
+    //    }
+    //}
 
     void Run()
     {
@@ -59,8 +70,8 @@ public class PlayerMovement : MonoBehaviour
         GetComponent<Rigidbody2D>().velocity = playerVelocity;
 
         //change animation to running only if the player is moving left/right
-        bool playerIsMovingHorinzontally = Mathf.Abs(GetComponent<Rigidbody2D>().velocity.x) > Mathf.Epsilon;
-        GetComponent<Animator>().SetBool("isRunning", playerIsMovingHorinzontally);
+        //bool playerIsMovingHorinzontally = Mathf.Abs(GetComponent<Rigidbody2D>().velocity.x) > Mathf.Epsilon;
+        //GetComponent<Animator>().SetBool("isRunning", playerIsMovingHorinzontally);
     }
 
     void FlipSprite()
@@ -70,9 +81,9 @@ public class PlayerMovement : MonoBehaviour
         {
             //transform.localScale = new Vector2(Mathf.Sign(GetComponent<Rigidbody2D>().velocity.x), 1f); //left=-1, right=1
             if (Mathf.Sign(GetComponent<Rigidbody2D>().velocity.x) < 0) //left=-1, 
-                GetComponent<SpriteRenderer>().flipX = true;
-            else if (Mathf.Sign(GetComponent<Rigidbody2D>().velocity.x) > 0) //right = 1
                 GetComponent<SpriteRenderer>().flipX = false;
+            else if (Mathf.Sign(GetComponent<Rigidbody2D>().velocity.x) > 0) //right = 1
+                GetComponent<SpriteRenderer>().flipX = true;
         }
     }
 
@@ -84,7 +95,7 @@ public class PlayerMovement : MonoBehaviour
         {
             //if not climbing, gravity maintain the same
             GetComponent<Rigidbody2D>().gravityScale = gravityScaleAtStart;
-            GetComponent<Animator>().SetBool("isClimbing", false);
+            //GetComponent<Animator>().SetBool("isClimbing", false);
             return;
         }
         //if climbing, set gravity to 0
@@ -96,7 +107,7 @@ public class PlayerMovement : MonoBehaviour
 
         //change animation to climbing only if the player is moving up/down
         bool playerHasVerticalSpeedWhenClimbing = Mathf.Abs(GetComponent<Rigidbody2D>().velocity.y) > Mathf.Epsilon;
-        GetComponent<Animator>().SetBool("isClimbing", playerHasVerticalSpeedWhenClimbing);
+        //GetComponent<Animator>().SetBool("isClimbing", playerHasVerticalSpeedWhenClimbing);
 
     }
 }

@@ -98,7 +98,9 @@ public class GameSession : MonoBehaviour
         yield return new WaitForSeconds(levelResetDelay);
         //reset all collectibles
         //FindObjectOfType<ScenePersist>().ResetScenePersist();
-        SceneManager.LoadScene(LevelRandomizer());      
+        SceneManager.LoadScene(LevelRandomizer());
+        //SceneManager.LoadScene(0);
+
         Destroy(gameObject);
     }
 

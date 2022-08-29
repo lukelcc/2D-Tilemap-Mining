@@ -14,10 +14,10 @@ public class PlayerMortality : MonoBehaviour
     [SerializeField] private float SpriteFlashPeriod = 0.2f;
     [SerializeField] private Vector2 knockBackForce = new Vector2(5f, 5f);
 
-    [Header("Death and dismemberment")]
-    [SerializeField] List<GameObject> bodyPartsList;
-    [SerializeField] float yeetForce = 20f;
-    [SerializeField] float rotatingSpeed = 2f;
+    //[Header("Death and dismemberment")]
+    //[SerializeField] List<GameObject> bodyPartsList;
+    //[SerializeField] float yeetForce = 20f;
+    //[SerializeField] float rotatingSpeed = 2f;
 
     private int hp;
     public event Action onHpChange;
@@ -41,19 +41,20 @@ public class PlayerMortality : MonoBehaviour
     {
         if (collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "Hazard")
         {
-
+            MinusHp(1);
+            if (hp <= 0) return;
             //player get hit at left or right
-            if (collision.gameObject.transform.position.x < transform.position.x)
+            if (collision.gameObject.transform.position.x > transform.position.x)
             {
                 //Debug.Log("fly right");
             }
-            else if (collision.gameObject.transform.position.x > transform.position.x)
+            else if (collision.gameObject.transform.position.x < transform.position.x)
             {
                 //Debug.Log("fly left");
                 knockBackForce = new Vector2(-knockBackForce.x, knockBackForce.y);
             }
 
-            MinusHp(1);          
+                   
         }
     }
 
@@ -123,24 +124,27 @@ public class PlayerMortality : MonoBehaviour
 
     public void Die()
     {
-        Dismemberment();
+        //Dismemberment();
+        GetComponent<PlayerMovement>().enabled = false;
+        GetComponent<Animator>().SetTrigger("Dying");
+        Debug.Log("die");
     }
 
-    private void Dismemberment()
-    {
-        Destroy(gameObject);
+    //private void Dismemberment()
+    //{
+    //    Destroy(gameObject);
 
-        Transform firePoint = GetComponent<Transform>().transform;
+    //    Transform firePoint = GetComponent<Transform>().transform;
 
 
-        for (int bodyPartsIndex = 0; bodyPartsIndex < bodyPartsList.Count; bodyPartsIndex++)
-        {
-            GameObject flyingBodyParts = Instantiate(bodyPartsList[bodyPartsIndex], firePoint.position, firePoint.rotation);
-            Rigidbody2D rb = flyingBodyParts.GetComponent<Rigidbody2D>();
+    //    for (int bodyPartsIndex = 0; bodyPartsIndex < bodyPartsList.Count; bodyPartsIndex++)
+    //    {
+    //        GameObject flyingBodyParts = Instantiate(bodyPartsList[bodyPartsIndex], firePoint.position, firePoint.rotation);
+    //        Rigidbody2D rb = flyingBodyParts.GetComponent<Rigidbody2D>();
 
-            Vector2 yeetDirection = new Vector2(UnityEngine.Random.Range(-5, 5), UnityEngine.Random.Range(5, 10));
-            rb.AddForce(yeetDirection * yeetForce, ForceMode2D.Impulse);
-            rb.AddTorque(rotatingSpeed, ForceMode2D.Impulse);
-        }
-    }
+    //        Vector2 yeetDirection = new Vector2(UnityEngine.Random.Range(-5, 5), UnityEngine.Random.Range(5, 10));
+    //        rb.AddForce(yeetDirection * yeetForce, ForceMode2D.Impulse);
+    //        rb.AddTorque(rotatingSpeed, ForceMode2D.Impulse);
+    //    }
+    //}
 }
