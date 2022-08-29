@@ -19,13 +19,16 @@ public class PlayerMortality : MonoBehaviour
     //[SerializeField] float yeetForce = 20f;
     //[SerializeField] float rotatingSpeed = 2f;
 
-    private int hp;
+    private int hp=0;
     public event Action onHpChange;
 
     private void Start()
     {
         hp = strartingHp;
-        //Physics2D.IgnoreLayerCollision(8, 11, false);
+        if (onHpChange != null)
+        {
+            onHpChange();
+        }
     }
     public int GetStartingHealth()
     {
