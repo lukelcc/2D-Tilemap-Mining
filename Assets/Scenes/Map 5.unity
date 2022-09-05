@@ -817,7 +817,7 @@ GameObject:
   - component: {fileID: 1672165863}
   m_Layer: 6
   m_Name: Platforms tilemap
-  m_TagString: Ground
+  m_TagString: DestructableTerrain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

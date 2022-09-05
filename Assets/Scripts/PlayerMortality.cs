@@ -2,6 +2,7 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMortality : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class PlayerMortality : MonoBehaviour
     [SerializeField] private float invulnerablePeriod = 3f;
     [SerializeField] private float controlDisablePeriod = 1f;
     [SerializeField] private float SpriteFlashPeriod = 0.2f;
-    [SerializeField] private Vector2 knockBackForce = new Vector2(5f, 5f);
+    //[SerializeField] private Vector2 knockBackForce = new Vector2(5f, 5f);
 
     //[Header("Death and dismemberment")]
     //[SerializeField] List<GameObject> bodyPartsList;
@@ -24,6 +25,7 @@ public class PlayerMortality : MonoBehaviour
 
     private void Start()
     {
+        Physics2D.IgnoreLayerCollision(8, 11, false);
         hp = strartingHp;
         if (onHpChange != null)
         {
@@ -40,44 +42,51 @@ public class PlayerMortality : MonoBehaviour
         return hp;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision) // when player get hurt by enemies/hazards
+    // when player get hurt by enemies/hazards
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "Hazard")
         {
             MinusHp(1);
-            if (hp <= 0) return;
-            //player get hit at left or right
-            if (collision.gameObject.transform.position.x > transform.position.x)
-            {
-                //Debug.Log("fly right");
-            }
-            else if (collision.gameObject.transform.position.x < transform.position.x)
-            {
-                //Debug.Log("fly left");
-                knockBackForce = new Vector2(-knockBackForce.x, knockBackForce.y);
-            }
 
-                   
+            //if die, dont run injured anims
+            //if (hp <= 0) 
+            //{               
+            //    return; 
+            //}
+
+            ////player get hit at left or right
+            //else if (collision.gameObject.transform.position.x < transform.position.x)
+            //{
+            //    GetComponent<Rigidbody2D>().velocity = knockBackForce;
+            //    Debug.Log("fly right");
+            //}
+            //else if (collision.gameObject.transform.position.x > transform.position.x)
+            //{
+            //    Debug.Log("fly left");
+            //    GetComponent<Rigidbody2D>().velocity = new Vector2(-knockBackForce.x, knockBackForce.y);
+            //}                   
         }
     }
 
     public void MinusHp(int HpToMinus)
-    {    
+    {
+        //minus hp
         hp -= HpToMinus;
-        //Debug.Log("hp:" + hp);
         
         //update UI with latest hp
         if (onHpChange != null)
         {
             onHpChange();
         }
-        //die
-        if (hp <= 0)
+
+        if (hp <= 0) //die anims
         {
             Die();
+            
             FindObjectOfType<GameSession>().ResetGame();
         }
-        else
+        else // injured anims
         {
             InjuredAnims();
         }
@@ -87,32 +96,33 @@ public class PlayerMortality : MonoBehaviour
 
     private IEnumerator TemporaryDisablePlayerMovement()
     {
-        GetComponent<Rigidbody2D>().velocity = knockBackForce;
-
-        GetComponent<PlayerMovement>().enabled = false;
+        //GetComponent<PlayerMovement>().enabled = false;
+        GetComponent<PlayerInput>().DeactivateInput();
 
         GetComponent<SpriteRenderer>().color = Color.red;
         yield return new WaitForSeconds(controlDisablePeriod);
 
-        GetComponent<PlayerMovement>().enabled = true;
+        //GetComponent<PlayerMovement>().enabled = true;
+        GetComponent<PlayerInput>().ActivateInput();
 
         GetComponent<SpriteRenderer>().color = Color.white;
 
         StartCoroutine(FlashingSprite());
     }
-
-
-    public void InjuredAnims()
-    {
-        StartCoroutine(TemporaryDisablePlayerMovement());
-        StartCoroutine(TemporaryInvulnerable());
-    }
+   
     private IEnumerator TemporaryInvulnerable()
     {
         Physics2D.IgnoreLayerCollision(8, 11, true);
         yield return new WaitForSeconds(invulnerablePeriod);
         Physics2D.IgnoreLayerCollision(8, 11, false);       
     }
+
+    public void InjuredAnims()
+    {
+        StartCoroutine(TemporaryDisablePlayerMovement());
+        StartCoroutine(TemporaryInvulnerable());
+    }
+
 
     private IEnumerator FlashingSprite()
     {
@@ -127,9 +137,10 @@ public class PlayerMortality : MonoBehaviour
 
     public void Die()
     {
-        //Dismemberment();
-        GetComponent<PlayerMovement>().enabled = false;
-        GetComponent<Animator>().SetTrigger("Dying");
+        GetComponent<Rigidbody2D>().velocity = Vector2.zero;//player freeze position
+        Physics2D.IgnoreLayerCollision(8, 11, true);//disable collision
+        GetComponent<PlayerInput>().DeactivateInput();//disable player input
+        GetComponent<Animator>().SetTrigger("Dying");//set die anims
         Debug.Log("die");
     }
 

@@ -19,28 +19,56 @@ public class PlayerMovement : MonoBehaviour
     //capsuleCollider = body
     int jumpsAvailable = 0;
 
+    //private bool canDash = true;
+    //private bool isDashing = false;
+
+
+    //[Header("Dash settings")]
+    //[SerializeField] private float dashingPower = 20f;
+    //[SerializeField] private float dashingTime = 0.2f;
+    //[SerializeField] private float dashingCooldown = 1f;
+
+
+
+    //private void OnEnable()
+    //{
+    //    GetComponent<_2Dplatformcontrols>().Enable();
+    //}
+
+    //private void OnDisable()
+    //{
+    //    GetComponent<_2Dplatformcontrols>().Disable();
+    //}
+
     // Update is called once per frame
     void Update()
-    {
-        Run();
-        FlipSprite();
+    {           
+        Run();        
         ClimbLadder();
+        FlipSprite(); //has to be last
     }
 
+    public Vector2 getMoveInput()
+    {
+        return moveInput;
+    }
 
     void OnMove(InputValue value) // getting WSAD key input from user
     {
+
         moveInput = value.Get<Vector2>();       
     }
 
 
-    // Jump - put in separate script?
-    void OnJump(InputValue value) // getting space key from user
+    // Jump - put in separate script? // new input system
+    void OnJump(InputValue value) // getting space key from user 
     {
+        
         if (GetComponent<BoxCollider2D>().IsTouchingLayers(LayerMask.GetMask("Ground")))
         {
             jumpsAvailable = maxJumps;
         }
+
 
         if (value.isPressed && jumpsAvailable > 0) // jump in air?
         {
@@ -50,22 +78,26 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    // Dash
-
-
-    // Crouch
-    //void Crouch()
+    //private void flyUpAnims()
     //{
-    //    if (moveInput.y < 0) // if user press down key, vector y <0
+    //    if (GetComponent<Rigidbody2D>().velocity.y > 0)
     //    {
-    //        GetComponent<Animator>().SetBool("isCrouching", true); // change animation to crouch
-            
+    //        GetComponent<Animator>().SetBool("isFlyingUp", true);
+    //    }
+    //}
+    
+    //private void fallDownAnims()
+    //{
+    //    if (GetComponent<Rigidbody2D>().velocity.y < 0)
+    //    {
+    //        GetComponent<Animator>().SetBool("isFallingDown", true);
     //    }
     //}
 
     void Run()
     {
         //set transformation
+        //if (isDashing) return;
         Vector2 playerVelocity = new Vector2(moveInput.x*playerRunSpeed, GetComponent<Rigidbody2D>().velocity.y);
         GetComponent<Rigidbody2D>().velocity = playerVelocity;
 
